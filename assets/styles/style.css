@@ -1,0 +1,102 @@
+p,h3,h5{
+	margin:0;
+}
+.no-padding{
+	padding:0;
+}
+.no-margin{
+	margin:0;
+}
+.clearfix:after{
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden
+}
+.avatar{
+	display:inline-block;
+	width:4rem;
+	height:4rem;
+	border-radius: 50%;
+}
+.pos-abs{
+	position: absolute;
+}
+.abs-center{
+	top:50%;
+	left:50%; 
+	transform: translate(-50%,-50%);
+}
+.fred{
+	color:red;
+}
+.bg-red{
+	color:#fff;
+	background-color:red;
+}
+.border-b{
+	border-bottom:1px solid #eee;
+}
+.user-header{
+	position:relative;
+	height:4rem;
+	background-color:#0e6404;
+	z-index: 2;
+}
+.user-header-bottom{
+	position:relative;
+	height:4rem;
+	background-color:#fff;
+}
+.user-avatar{
+	top:2rem;
+	left:50%; 
+	transform: translateX(-50%);
+}
+.user-info{
+	height:2rem;
+	display: -webkit-flex;
+	display: flex;
+	justify-content: space-around;
+}
+.user-info div{
+	line-height: 2rem;
+}
+.bet-chose-footer div{
+	height:44px;
+	line-height:44px;
+	text-align:center;
+}
+#message-list .list-block{
+	margin-top:0;
+	margin-bottom:.5rem;
+}
+.none-bg{
+	background:none;
+}
+.white-bg{
+	background-color: #fff;
+}
+.fl{
+	float:left;
+}
+.fr{
+	float:right;
+}
+.message{
+	margin:.5rem 0;
+}
+.message-content{
+	border-radius: 5px;
+	padding:.5rem;
+	display: inline-block;
+    max-width: 98%;
+}
+.text-align-right{
+	text-align:right;
+}
+.bk-img{
+	float:left;
+	width:20%;
+}
