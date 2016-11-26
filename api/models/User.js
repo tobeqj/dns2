@@ -9,14 +9,14 @@ module.exports = {
 
   attributes: {
   	//手机号
-    mobile: {
+    phone: {
       type: 'string',
       unique: true,
       size: 18
     },
 
     //支付密码
-    paypwd: {
+    password: {
       type: 'string'
     },
 
@@ -54,6 +54,26 @@ module.exports = {
       collection: 'Room',
     },
 
+  },
+   beforeCreate:function(entity, next) {
+    if(entity.password){
+      sails.services['passport'].hashPassword(entity.password, function(err, password){
+        entity.password = password;
+        next();
+      });
+    }else{
+      next();
+    }
+  },
+  beforeUpdate:function(entity, next){
+    if(entity.password){
+      sails.services['passport'].hashPassword(entity.password, function(err, password){
+        entity.password = password;
+        next();
+      });
+    }else{
+      next();
+    }
   }
 };
 
