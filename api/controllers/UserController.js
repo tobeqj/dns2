@@ -21,7 +21,12 @@ module.exports = {
  			if(entity){
  				sails.services['passport'].validatePassword(password, entity.password, function(error, result){
  					if(result){
- 						return res.json({success:true, info: '登录'});
+ 						var data = {
+ 							id:entity['id'],
+ 							nickname:entity['nickname'],
+ 							avatar:entity['avatar']||''
+ 						}
+ 						return res.json({success:true, data:data, info: '登录'});
  					}else{
  						return res.json({success:false, info: '密码错误'});
  					}
@@ -35,9 +40,17 @@ module.exports = {
  	signup:function(req, res, next){
  		var phone = req.param('phone');
  		var password = req.param('password');
- 		User.create({phone:phone, password:password}).exec(function(err, result){
+ 		var nickname = '牛'+Math.round(Math.random()*1000000);
+ 		User.findOne({phone:phone}).exec(function(err, entity){
  			if(err) return res.json({success:false, info:'注册失败'});
- 			return res.json({success:true, info:'注册成功'});
+ 			if(entity){
+ 				return res.json({success:false, info:'该手机号已被注册'});
+ 			}else{
+ 				User.create({phone:phone, password:password, nickname:nickname}).exec(function(err, result){
+		 			if(err) return res.json({success:false, info:'注册失败'});
+		 			return res.json({success:true, info:'注册成功'});
+		 		});
+ 			}
  		});
  	}
 
