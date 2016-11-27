@@ -44,11 +44,12 @@ module.exports = {
 	},
 
 	inRoom(req, res){
-		 sails.log('inRoom');
-		 console.log(req.param['roomId']);
+		 console.log(req.param('roomId'));
 		 if(req.isSocket){
- 	 	 	sails.sockets.join(req, req.param['roomId']);
- 	 	 	return res.json({success:true, info:'进入房间'});
+ 	 	 	sails.sockets.join(req, req.param('roomId'), function(err){
+ 	 	 		if(err) return res.json({success:false, info:'进入房间失败'});
+ 	 	 		return res.json({success:true, info:'进入房间'});
+ 	 	 	});
  	 	 }else{
  	 	 	return res.json({success:false, info:'进入房间失败'});
  	 	 }
@@ -56,7 +57,32 @@ module.exports = {
 
 	outRoom(req, res){
 
+	},
+
+	send(req, res){
+		var params = req.allParams(),
+		roomId 	= params.roomId,
+		userId 	= params.userId,
+		content = params.content;
+		User.findOne(userId).exec(function(err, entity){
+			var data = {userId:userId, content:content};
+			if(err){
+				data.nickname = '';
+				data.avatar = ''
+			}else{
+				data.nickname = entity.nickname;
+				data.avatar   = entity.avatar;
+			}
+			sails.sockets.broadcast(roomId, data);
+		});
+	},
+
+	fapai(req, res){
+		var rooms = sails.sockets.rooms();
+		sails.log(rooms);
 	}
+
+
 
 };
 
