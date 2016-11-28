@@ -78,8 +78,26 @@ module.exports = {
 	},
 
 	fapai(req, res){
-		var rooms = sails.sockets.rooms();
-		sails.log(rooms);
+		var roomName = req.param('roomId');
+		var userId   = req.param('userId');
+		var num      = req.param('num');
+		sails.io.sockets.in(roomName).clients(function(err, sockets){
+			User.findOne(userId).exec(function(err, entity){
+				var data = {
+					type:2,
+					userId:userId,
+					avatar:entity['avatar']||'',
+					nickname:entity['nickname'] ||'',
+
+				};
+				var l = sockets.length;
+				var arr = sails.services['game'].hpqj(l);
+				for(var i=0; i<l; i++){
+					data.pk = arr[i];
+					sails.sockets.broadcast(sockets[i], data);
+				}	
+			});
+		});
 	}
 
 
